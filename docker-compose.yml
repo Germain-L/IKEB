@@ -10,6 +10,8 @@ services:
       - mariadbdata:/var/lib/mysql
     env_file:
       - ./mariadb.env
+    networks:
+      - glpi-network
 
 #GLPI Container
   glpi:
@@ -24,28 +26,34 @@ services:
       - glpi:/var/www/html/glpi
     environment:
       - TIMEZONE=Europe/Brussels
+    networks:
+      - glpi-network
 
   sqlserver1:
     container_name: sqlserver-master
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
-      SA_PASSWORD: "Your_password123"
+      SA_PASSWORD: ${SQL_PASSWORD}
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
     volumes: 
     - sqldatamaster:/var/opt/mssql
+    networks:
+      - sqlserver-network
 
   sqlserver2:
     container_name: sqlserver-slave
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
-      SA_PASSWORD: "Your_password123"
+      SA_PASSWORD: ${SQL_PASSWORD}
       ACCEPT_EULA: "Y"
     ports:
       - "1434:1433"
     volumes: 
     - sqldataslave:/var/opt/mssql
+    networks:
+      - sqlserver-network
 
 volumes:
   sqldatamaster:
@@ -53,5 +61,8 @@ volumes:
   glpi:
   mariadbdata:
 
+networks:
+  glpi-network:
+  sqlserver-network:
 
   
