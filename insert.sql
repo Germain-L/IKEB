@@ -1,4 +1,4 @@
-/* Script d'insertion des données */
+/* Script d'insertion des donnÃ©es */
 
 INSERT INTO stock_status(name) VALUES ('Rupture');
 INSERT INTO stock_status(name) VALUES ('En stock');
@@ -14,9 +14,43 @@ INSERT INTO shelf(number) VALUES (1);
 INSERT INTO shelf(number) VALUES (2);
 INSERT INTO shelf(number) VALUES (3);
 
-INSERT INTO product(name, description, price, id_stock, id_shelf) VALUES ('Shtemüll', 'Lampe', 29.90, 
+INSERT INTO price(cost) VALUES (45);
+INSERT INTO price(cost) VALUES (60);
+INSERT INTO price(cost) VALUES (3);
+INSERT INTO price(cost) VALUES (1);
+INSERT INTO price(cost) VALUES (15);
+
+INSERT INTO product(name, description, price, id_stock, id_shelf, id_cost) VALUES ('ShtemÃ¼ll', 'Lampe', 29.90, 
 	(SELECT stock_status.id_stock FROM stock_status WHERE name = 'En stock'), 
-	(SELECT shelf.id_shelf FROM shelf WHERE number = 2));
+	(SELECT shelf.id_shelf FROM shelf WHERE number = 2),
+	(SELECT price.id_price FROM price WHERE price.cost = 15)
+);
+
+INSERT INTO product(name, description, price, id_stock, id_shelf, id_cost) VALUES ('SmÃ¶lek', 'Meuble television', 89.00, 
+	(SELECT stock_status.id_stock FROM stock_status WHERE name = 'En commande'), 
+	(SELECT shelf.id_shelf FROM shelf WHERE number = 3),
+	(SELECT price.id_price FROM price WHERE price.cost = 45)	
+);
+
+INSERT INTO product(name, description, price, id_stock, id_shelf, id_cost) VALUES ('StorgÃ¶tt', 'Balai', 29.90, 
+	(SELECT stock_status.id_stock FROM stock_status WHERE name = 'En stock'), 
+	(SELECT shelf.id_shelf FROM shelf WHERE number = 1),
+	(SELECT price.id_price FROM price WHERE price.cost = 15)
+);
+
+INSERT INTO product(name, description, price, id_stock, id_shelf, id_cost) VALUES ('SteinerbÃ¶at', 'Beteau en peluche', 13.00, 
+	(SELECT stock_status.id_stock FROM stock_status WHERE name = 'Rupture'), 
+	(SELECT shelf.id_shelf FROM shelf WHERE number = 3),
+	(SELECT price.id_price FROM price WHERE price.cost = 3)
+);
+
+INSERT INTO product(name, description, price, id_stock, id_shelf, id_cost) VALUES ('FinkiÃ«lkrÃ¶tt', 'Tapis', 3.90, 
+	(SELECT stock_status.id_stock FROM stock_status WHERE name = 'En stock'), 
+	(SELECT shelf.id_shelf FROM shelf WHERE number = 2),
+	(SELECT price.id_price FROM price WHERE price.cost = 1)
+);
+
+
 
 INSERT INTO service(name) VALUES ('Livraison');
 INSERT INTO service(name) VALUES ('Forfait montage');
@@ -38,19 +72,22 @@ INSERT INTO adress(adress, complement, id_zip) VALUES ('33 cours Albret', 'Batim
 INSERT INTO adress(adress, complement, id_zip) VALUES ('168 rue maison', '', 
 (SELECT zip.id_zip FROM zip WHERE code = 33000 AND city = 'Bordeaux'));
 
-INSERT INTO adress(adress, complement, id_zip) VALUES ('12 rue aubrac', 'étage 2', 
+INSERT INTO adress(adress, complement, id_zip) VALUES ('12 rue aubrac', 'Ã©tage 2', 
+(SELECT zip.id_zip FROM zip WHERE code = 33000 AND city = 'Bordeaux'));
+
+INSERT INTO adress(adress, complement, id_zip) VALUES ('1 place des quinquonce', 'appartement 32', 
 (SELECT zip.id_zip FROM zip WHERE code = 33000 AND city = 'Bordeaux'));
 
 
 
 
-INSERT INTO status(status) VALUES ('Validé');
+INSERT INTO status(status) VALUES ('ValidÃ©');
 INSERT INTO status(status) VALUES ('En cours');
-INSERT INTO status(status) VALUES ('Non validé');
+INSERT INTO status(status) VALUES ('Non validÃ©');
 
 INSERT INTO contract_type(name) VALUES ('CDD');
 INSERT INTO contract_type(name) VALUES ('CDI');
-INSERT INTO contract_type(name) VALUES ('Intérimaire');
+INSERT INTO contract_type(name) VALUES ('IntÃ©rimaire');
 
 INSERT INTO employment_type(name) VALUES ('Vendeur');
 INSERT INTO employment_type(name) VALUES ('Commercial');
@@ -70,10 +107,12 @@ INSERT INTO person(lastname, firstname, email, id_adress) VALUES ('Cas', 'Marc-O
 (SELECT adress.id_adress FROM adress WHERE adress = '168 rue maison' AND complement = ''));
 
 INSERT INTO person(lastname, firstname, email, id_adress) VALUES ('Delibes-Houdayer', 'Maximilien', 'delibesshoudayermaximilien@gmail.com', 
-(SELECT adress.id_adress FROM adress WHERE adress = '12 rue aubrac' AND complement = 'étage 2'));
+(SELECT adress.id_adress FROM adress WHERE adress = '12 rue aubrac' AND complement = 'Ã©tage 2'));
 
 
 INSERT INTO card(points, id_pers) VALUES (269, (SELECT person.id_pers FROM person WHERE lastname = 'Barille' AND firstname = 'Thomas' AND email = 'thomasbarille@gmail.com'));
+INSERT INTO card(points, id_pers) VALUES (1076, (SELECT person.id_pers FROM person WHERE lastname = 'Leignel' AND firstname = 'Germain' AND email = 'germainleignel@gmail.com'));
+
 
 INSERT INTO employee(level, employment_date, id_employment_type, id_contract_type, id_pers) VALUES (2, '2020/03/24', 
 (SELECT employment_type.id_employment_type FROM employment_type WHERE name = 'Vendeur'),(SELECT contract_type.id_contract_type FROM contract_type WHERE name = 'CDI'),
@@ -84,19 +123,19 @@ INSERT INTO employee(level, employment_date, id_employment_type, id_contract_typ
 (SELECT person.id_pers FROM person WHERE lastname = 'Leignel' AND firstname = 'Germain' AND email = 'germainleignel@gmail.com'));
 
 
-INSERT INTO client(id_pers) VALUES (3);
-INSERT INTO client(id_pers) VALUES (4);
-INSERT INTO client(id_pers) VALUES (5);
+INSERT INTO client(id_pers) VALUES (((SELECT person.id_pers FROM person WHERE lastname = 'Barille' AND firstname = 'Thomas' AND email = 'thomasbarille@gmail.com')));
+INSERT INTO client(id_pers) VALUES ((SELECT person.id_pers FROM person WHERE lastname = 'Leignel' AND firstname = 'Germain' AND email = 'germainleignel@gmail.com'));
+INSERT INTO client(id_pers) VALUES ((SELECT person.id_pers FROM person WHERE lastname = 'Delibes-Houdayer' AND firstname = 'Maximilien' AND email = 'delibesshoudayermaximilien@gmail.com'));
 
 INSERT INTO invoice(code, invoice_date, id_store, id_client) VALUES ('F1000', '2020/10/10', (SELECT store.id_store FROM store WHERE id_store = 1), (SELECT client.id_client FROM client WHERE id_client = 1));  
 INSERT INTO invoice(code, invoice_date, id_store, id_client) VALUES ('F1100', '2021/03/19', (SELECT store.id_store FROM store WHERE id_store = 1), (SELECT client.id_client FROM client WHERE id_client = 1));
 
 INSERT INTO invoice_line(description, qte, id_product, id_vat, id_invoice) VALUES ('Facture pour un ensemble de meuble', 2, 
-(SELECT product.id_product FROM product WHERE name = 'Smölek' AND price = 89 AND description = 'meuble television'),
+(SELECT product.id_product FROM product WHERE name = 'SmÃ¶lek' AND price = 89 AND description = 'meuble television'),
 (SELECT vat.id_vat FROM vat WHERE rate = 20.00), 
 (SELECT invoice.id_invoice FROM invoice WHERE code = 'F1000' AND invoice_date = '2020/10/10'));
-INSERT INTO invoice_line(description, qte, id_product, id_vat, id_invoice) VALUES ('Facture pour la lampe Shtemüll', 1, 
-(SELECT product.id_product FROM product WHERE name = 'Shtemüll' AND price = 29.90 AND description = 'lampe'),
+INSERT INTO invoice_line(description, qte, id_product, id_vat, id_invoice) VALUES ('Facture pour la lampe ShtemÃ¼ll', 1, 
+(SELECT product.id_product FROM product WHERE name = 'ShtemÃ¼ll' AND price = 29.90 AND description = 'lampe'),
 (SELECT vat.id_vat FROM vat WHERE rate = 10.00), 
 (SELECT invoice.id_invoice FROM invoice WHERE code = 'F1100' AND invoice_date = '2021/03/19'));
 
@@ -111,7 +150,7 @@ INSERT INTO order_line(qte, description, id_orders) VALUES (1, 'balai', (SELECT 
 INSERT INTO quote(code, quote_date, id_orders) VALUES ('D1000', '2019/10/18', (SELECT orders.id_orders FROM orders WHERE code = 'C1000' AND order_date = '2020/09/26'));
 
 INSERT INTO quote_line(description, qte, id_product, id_vat, id_status, id_quote) VALUES ('Devis cuisine', 1, 
-(SELECT product.id_product FROM product WHERE name = 'Storgött' AND price = 89 AND description = 'Balai'),
+(SELECT product.id_product FROM product WHERE name = 'StorgÃ¶tt' AND price = 29.90 AND description = 'Balai'),
 (SELECT vat.id_vat FROM vat WHERE rate = 10.00),
 (SELECT status.id_status FROM status WHERE id_status = 2),
 (SELECT quote.id_quote FROM quote WHERE code = 'D1000' AND quote_date = '2019/10/18'));

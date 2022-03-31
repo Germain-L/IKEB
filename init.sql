@@ -1,4 +1,3 @@
-CREATE DATABASE ikeb;
 use ikeb;
 CREATE TABLE stock_status(
     id_stock INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
