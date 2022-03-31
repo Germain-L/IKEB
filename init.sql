@@ -13,7 +13,8 @@ CREATE TABLE price(
     id_price INT NOT NULL IDENTITY(1, 1),
     cost MONEY,
     PRIMARY KEY(id_price)
-) CREATE TABLE product(
+);
+CREATE TABLE product(
     id_product INT NOT NULL IDENTITY(1, 1),
     name VARCHAR(50),
     price MONEY,
@@ -173,49 +174,49 @@ CREATE TABLE quote_line(
 CREATE TABLE provides(
     id_service INT,
     id_store INT,
-    (id_service, id_store),
+    PRIMARY KEY(id_service, id_store),
     FOREIGN KEY(id_service) REFERENCES service(id_service),
     FOREIGN KEY(id_store) REFERENCES store(id_store)
 );
 CREATE TABLE sells(
     id_store INT,
     id_pers INT,
-    (id_store, id_pers),
+    PRIMARY KEY(id_store, id_pers),
     FOREIGN KEY(id_store) REFERENCES store(id_store),
     FOREIGN KEY(id_pers) REFERENCES person(id_pers)
 );
 CREATE TABLE stores(
     id_product INT,
     id_store INT,
-    (id_product, id_store),
+    PRIMARY KEY(id_product, id_store),
     FOREIGN KEY(id_product) REFERENCES product(id_product),
     FOREIGN KEY(id_store) REFERENCES store(id_store)
 );
 CREATE TABLE belongs(
     id_adress INT,
     id_zip INT,
-    (id_adress, id_zip),
+    PRIMARY KEY(id_adress, id_zip),
     FOREIGN KEY(id_adress) REFERENCES adress(id_adress),
     FOREIGN KEY(id_zip) REFERENCES zip(id_zip)
 );
 CREATE TABLE deliver(
     id_client INT,
     id_adress INT,
-    (id_client, id_adress),
+    PRIMARY KEY(id_client, id_adress),
     FOREIGN KEY(id_client) REFERENCES client(id_client),
     FOREIGN KEY(id_adress) REFERENCES adress(id_adress)
 );
 CREATE TABLE factured(
     id_client INT,
     id_adress INT,
-    (id_client, id_adress),
+    PRIMARY KEY(id_client, id_adress),
     FOREIGN KEY(id_client) REFERENCES client(id_client),
     FOREIGN KEY(id_adress) REFERENCES adress(id_adress)
 );
 CREATE TABLE issued(
     id_client INT,
     id_quote INT,
-    (id_client, id_quote),
+    PRIMARY KEY(id_client, id_quote),
     FOREIGN KEY(id_client) REFERENCES client(id_client),
     FOREIGN KEY(id_quote) REFERENCES quote(id_quote)
 );
