@@ -2,7 +2,7 @@ use ikeb;
 CREATE TABLE stock_status(
     id_stock INT NOT NULL IDENTITY(1, 1),
     name VARCHAR(50),
-    PRIMARY KEY(id_status)
+    PRIMARY KEY(id_stock)
 );
 CREATE TABLE shelf(
     id_shelf INT NOT NULL IDENTITY(1, 1),
