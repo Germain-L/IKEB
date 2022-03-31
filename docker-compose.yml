@@ -1,7 +1,6 @@
 version: "3.2"
 
 services:
-#MariaDB Container
   mariadb:
     image: mariadb:10.7
     container_name: mariadb
@@ -13,7 +12,6 @@ services:
     networks:
       - glpi-network
 
-#GLPI Container
   glpi:
     image: diouxx/glpi
     container_name : glpi
@@ -64,5 +62,3 @@ volumes:
 networks:
   glpi-network:
   sqlserver-network:
-
-  
