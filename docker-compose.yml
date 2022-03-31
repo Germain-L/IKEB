@@ -7,7 +7,7 @@ services:
     container_name: mariadb
     hostname: mariadb
     volumes:
-      - /var/lib/mysql:/var/lib/mysql
+      - mariadbdata:/var/lib/mysql
     env_file:
       - ./mariadb.env
 
@@ -25,17 +25,33 @@ services:
     environment:
       - TIMEZONE=Europe/Brussels
 
-  sqlserver:
-    container_name: sqlserver
-    image: "mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04"
+  sqlserver1:
+    container_name: sqlserver-master
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
       SA_PASSWORD: "Your_password123"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
     volumes: 
-    - sqldata:/var/opt/mssql
+    - sqldatamaster:/var/opt/mssql
+
+  sqlserver2:
+    container_name: sqlserver-slave
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1434:1433"
+    volumes: 
+    - sqldataslave:/var/opt/mssql
 
 volumes:
-  sqldata:
+  sqldatamaster:
+  sqldataslave:
   glpi:
+  mariadbdata:
+
+
+  
