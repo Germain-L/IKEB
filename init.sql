@@ -8,18 +8,29 @@ CREATE TABLE shelf(
     id_shelf INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
     number INT,
 );
+CREATE TABLE price(
+    id_price INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+    cost MONEY,
+)
 CREATE TABLE product(
     id_product INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
     name VARCHAR(50),
     price MONEY,
     description VARCHAR(50),
-    id_shelf INT(50),
+    id_shelf INT,
     id_stock INT NOT NULL,
-    FOREIGN KEY(id_stock) REFERENCES stock_status(id_stock) FOREIGN KEY(id_shelf) REFERENCES shelf(id_shelf)
+    id_cost INT,
+    FOREIGN KEY(id_stock) REFERENCES stock_status(id_stock),
+    FOREIGN KEY(id_cost) REFERENCES price(id_price)
 );
 CREATE TABLE service(
     id_service INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
     name VARCHAR(50),
+);
+CREATE TABLE zip(
+    id_zip INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
+    code VARCHAR(50),
+    city VARCHAR(50),
 );
 CREATE TABLE adress(
     id_adress INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
@@ -27,11 +38,6 @@ CREATE TABLE adress(
     complement VARCHAR(50),
     id_zip INT NOT NULL,
     FOREIGN KEY(id_zip) REFERENCES zip(id_zip)
-);
-CREATE TABLE zip(
-    id_zip INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
-    code VARCHAR(50),
-    city VARCHAR(50),
 );
 CREATE TABLE vat(
     id_vat INT NOT NULL IDENTITY(1, 1) PRIMARY KEY,
