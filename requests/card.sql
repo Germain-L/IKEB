@@ -1,0 +1,1 @@
+SELECT person.email FROM person INNER JOIN card ON card.id_pers = person.id_pers AND card.points>1000;

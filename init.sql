@@ -154,8 +154,7 @@ CREATE TABLE quote(
     id_orders INT,
     UNIQUE(id_orders),
     PRIMARY KEY(id_quote),
-    FOREIGN KEY(id_orders),
-    REFERENCES orders(id_orders)
+    FOREIGN KEY(id_orders) REFERENCES orders(id_orders)
 );
 CREATE TABLE quote_line(
     id_quote_line INT NOT NULL IDENTITY(1, 1),
