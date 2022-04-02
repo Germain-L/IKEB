@@ -27,8 +27,8 @@ services:
     networks:
       - glpi-network
 
-  sqlserver1:
-    container_name: sqlserver-master
+  sqlserver:
+    container_name: sqlserver
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
       SA_PASSWORD: ${SQL_PASSWORD}
@@ -36,26 +36,12 @@ services:
     ports:
       - "1433:1433"
     volumes: 
-    - sqldatamaster:/var/opt/mssql
-    networks:
-      - sqlserver-network
-
-  sqlserver2:
-    container_name: sqlserver-slave
-    image: "mcr.microsoft.com/mssql/server:2019-latest"
-    environment:
-      SA_PASSWORD: ${SQL_PASSWORD}
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1434:1433"
-    volumes: 
-    - sqldataslave:/var/opt/mssql
+    - sqldata:/var/opt/mssql
     networks:
       - sqlserver-network
 
 volumes:
-  sqldatamaster:
-  sqldataslave:
+  sqldata:
   glpi:
   mariadbdata:
 
